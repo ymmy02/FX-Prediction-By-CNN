@@ -4,12 +4,19 @@ import pandas as pd
 from oanda_config import ACCOUNT_NUMBER, ACCESS_TOKEN
 
 def get_exrate_as_df(instrument='EUR_USD', granularity='D',
-        to='2019-03-01', count=100):
-    params = {
-            'granularity': granularity,
-            'to': to,
-            'count': count,
-            }
+        from_=None, to='2019-03-01', count=100):
+    if from_ is None:
+        params = {
+                'granularity': granularity,
+                'to': to,
+                'count': count,
+                }
+    else:
+        params = {
+                'granularity': granularity,
+                'from': from_,
+                'to': to,
+                }
     api = API(access_token=ACCESS_TOKEN)
     r = instruments.InstrumentsCandles(instrument=instrument, params=params)
     api.request(r)
